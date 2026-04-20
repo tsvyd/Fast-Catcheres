@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fast Catchers</title>
+  <title>Vulc Fast Catchers</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --sky:    #a8e4f8;
-      --ocean1: #1a8fc1;
-      --ocean2: #0d5f8a;
-      --deep:   #073a5e;
-      --ice:    #d6f3ff;
-      --glow:   #4dd9ff;
-      --btn-top:#52e8ff;
-      --btn-bot:#0099cc;
-      --gold:   #ffe066;
-      --white:  #ffffff;
+      --lava1: #ff4500;
+      --lava2: #cc2200;
+      --lava3: #8b1000;
+      --deep:  #1a0500;
+      --ember: #ff8c00;
+      --glow:  #ffcc00;
+      --btn-top:#ff6a00;
+      --btn-bot:#cc2200;
+      --gold:  #ffe066;
+      --rock:  #3d1f0a;
+      --ash:   #5a3a2a;
     }
 
     html, body {
@@ -28,44 +29,47 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(180deg, #b8ecff 0%, #5bc8ef 30%, #1a8fc1 60%, #073a5e 100%);
+      background: linear-gradient(180deg, #1a0500 0%, #3d0c00 20%, #6b1800 45%, #cc3300 70%, #ff5500 100%);
       min-height: 100vh;
       position: relative;
     }
 
-    /* === BUBBLES BG === */
-    #bubbles {
+    /* === EMBER PARTICLES === */
+    #particles {
       position: fixed; inset: 0;
       pointer-events: none;
       z-index: 0;
       overflow: hidden;
     }
-    .bubble {
+
+    .ember-particle {
       position: absolute;
-      bottom: -60px;
+      bottom: -20px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.55), rgba(100,220,255,0.15));
-      border: 1.5px solid rgba(255,255,255,0.4);
-      animation: rise linear infinite;
-    }
-    @keyframes rise {
-      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
-      50%  { transform: translateY(-45vh) translateX(18px) scale(1.05); opacity: 0.5; }
-      100% { transform: translateY(-110vh) translateX(-10px) scale(0.9); opacity: 0; }
+      background: radial-gradient(circle at 40% 40%, #ffee44, #ff6600, #cc2200);
+      animation: emberRise linear infinite;
+      opacity: 0.85;
     }
 
-    /* === FISH SWIMMING === */
-    .swim-fish {
+    @keyframes emberRise {
+      0%   { transform: translateY(0) translateX(0) scale(1) rotate(0deg); opacity: 0.9; }
+      30%  { transform: translateY(-30vh) translateX(20px) scale(0.85) rotate(60deg); opacity: 0.7; }
+      70%  { transform: translateY(-70vh) translateX(-15px) scale(0.6) rotate(120deg); opacity: 0.4; }
+      100% { transform: translateY(-110vh) translateX(10px) scale(0.3) rotate(180deg); opacity: 0; }
+    }
+
+    /* === LAVA DROPS === */
+    .lava-drop {
       position: fixed;
-      font-size: 2rem;
-      animation: swim linear infinite;
+      font-size: 1.6rem;
+      animation: lavaDrip linear infinite;
       pointer-events: none;
       z-index: 1;
-      filter: drop-shadow(0 0 6px rgba(0,180,255,0.5));
     }
-    @keyframes swim {
-      0%   { left: -80px; }
-      100% { left: 110vw; }
+    @keyframes lavaDrip {
+      0%   { top: -40px; opacity: 1; }
+      80%  { opacity: 0.8; }
+      100% { top: 110vh; opacity: 0; }
     }
 
     /* === LAYOUT === */
@@ -74,7 +78,7 @@
       z-index: 10;
       max-width: 480px;
       margin: 0 auto;
-      padding: 32px 20px 60px;
+      padding: 32px 20px 120px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -91,48 +95,48 @@
       100% { transform: scale(1) translateY(0); opacity: 1; }
     }
 
-    .logo-wrap .logo-fish {
-      font-size: 3.5rem;
+    .logo-wrap .logo-icon {
+      font-size: 3.8rem;
       display: block;
-      margin-bottom: -8px;
-      animation: wobble 3s ease-in-out infinite;
+      margin-bottom: -4px;
+      animation: erupt 2.5s ease-in-out infinite;
     }
-    @keyframes wobble {
-      0%,100% { transform: rotate(-5deg) scale(1); }
-      50%      { transform: rotate(5deg) scale(1.08); }
+    @keyframes erupt {
+      0%,100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 8px #ff4400); }
+      50%      { transform: scale(1.1) translateY(-6px); filter: drop-shadow(0 0 22px #ffaa00); }
     }
 
     .logo-title {
       font-family: 'Fredoka One', cursive;
-      font-size: clamp(2.8rem, 9vw, 4rem);
+      font-size: clamp(2.4rem, 8vw, 3.6rem);
       color: #fff;
       text-shadow:
-        0 4px 0 var(--ocean2),
-        0 0 24px rgba(77,217,255,0.8),
-        0 8px 24px rgba(0,80,140,0.5);
+        0 4px 0 #7a1500,
+        0 0 30px rgba(255,100,0,0.9),
+        0 8px 24px rgba(180,30,0,0.7);
       letter-spacing: 0.02em;
-      line-height: 1;
+      line-height: 1.1;
     }
 
     .logo-sub {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--glow);
-      text-shadow: 0 0 12px rgba(77,217,255,0.9);
-      margin-top: 4px;
+      text-shadow: 0 0 14px rgba(255,200,0,0.8);
+      margin-top: 6px;
     }
 
     /* === CARD === */
     .card {
       width: 100%;
-      background: linear-gradient(160deg, rgba(255,255,255,0.22) 0%, rgba(180,235,255,0.10) 100%);
-      border: 1.5px solid rgba(255,255,255,0.35);
+      background: linear-gradient(160deg, rgba(80,20,5,0.75) 0%, rgba(50,10,0,0.65) 100%);
+      border: 1.5px solid rgba(255,100,20,0.35);
       border-radius: 24px;
-      padding: 24px 26px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0,50,100,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+      padding: 22px 24px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(200,50,0,0.3), inset 0 1px 0 rgba(255,140,0,0.2);
       animation: fadeUp 0.6s ease both;
     }
     @keyframes fadeUp {
@@ -146,8 +150,8 @@
     .card-title {
       font-family: 'Fredoka One', cursive;
       font-size: 1.15rem;
-      color: var(--gold);
-      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      color: var(--glow);
+      text-shadow: 0 1px 6px rgba(255,180,0,0.5);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -156,7 +160,7 @@
 
     .card p, .card li {
       font-size: 0.92rem;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,210,180,0.92);
       line-height: 1.7;
     }
 
@@ -188,60 +192,78 @@
 
     .creature-box {
       width: 88px; height: 88px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.3), rgba(100,210,255,0.15));
-      border: 2px solid rgba(255,255,255,0.45);
+      background: linear-gradient(145deg, rgba(140,40,5,0.7), rgba(80,15,0,0.8));
+      border: 2px solid rgba(255,120,30,0.5);
       border-radius: 18px;
       display: flex; align-items: center; justify-content: center;
       font-size: 2.4rem;
-      box-shadow: 0 4px 16px rgba(0,60,120,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
-      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 4px 20px rgba(255,80,0,0.35), inset 0 1px 0 rgba(255,160,0,0.25);
+      animation: floatEmber 3s ease-in-out infinite;
       cursor: default;
       transition: transform 0.2s;
     }
-    .creature-box:hover { transform: scale(1.12) rotate(-5deg); }
+    .creature-box:hover { transform: scale(1.12) rotate(-4deg); }
     .creature-box:nth-child(2) { animation-delay: 0.4s; }
     .creature-box:nth-child(3) { animation-delay: 0.8s; }
 
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
+    @keyframes floatEmber {
+      0%,100% { transform: translateY(0); box-shadow: 0 4px 20px rgba(255,80,0,0.35), inset 0 1px 0 rgba(255,160,0,0.25); }
+      50%      { transform: translateY(-8px); box-shadow: 0 10px 28px rgba(255,120,0,0.5), inset 0 1px 0 rgba(255,200,0,0.3); }
     }
 
-    /* === PLAY BUTTON === */
-    .btn-wrap {
+    /* === GLOWING CRACK === */
+    .crack-deco {
       width: 100%;
-      animation: fadeUp 0.6s 0.45s ease both;
+      height: 6px;
+      background: linear-gradient(90deg, transparent, #ff4400 30%, #ffaa00 50%, #ff4400 70%, transparent);
+      border-radius: 3px;
+      opacity: 0.6;
+      animation: crackGlow 2s ease-in-out infinite;
+    }
+    @keyframes crackGlow {
+      0%,100% { opacity:0.4; box-shadow: 0 0 8px #ff4400; }
+      50%      { opacity:0.85; box-shadow: 0 0 20px #ffaa00, 0 0 40px #ff6600; }
+    }
+
+    /* === FIXED PLAY BUTTON (bottom-right) === */
+    .play-fixed {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      z-index: 100;
+      animation: fadeUp 0.6s 0.5s ease both;
     }
 
     .play-btn {
-      display: block;
-      width: 100%;
-      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
       font-family: 'Fredoka One', cursive;
-      font-size: 1.6rem;
-      letter-spacing: 0.05em;
-      color: var(--deep);
-      text-align: center;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      color: #fff;
       border: none;
       border-radius: 50px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(180deg, var(--btn-top) 0%, #1ecfff 40%, var(--btn-bot) 100%);
+      background: linear-gradient(180deg, #ff6a00 0%, #e03500 50%, #a81800 100%);
       box-shadow:
-        0 6px 0 #006fa3,
-        0 10px 28px rgba(0,120,180,0.4),
-        inset 0 2px 0 rgba(255,255,255,0.5);
+        0 6px 0 #6b0c00,
+        0 12px 30px rgba(220,60,0,0.55),
+        inset 0 2px 0 rgba(255,200,100,0.3);
       transform: translateY(0);
       transition: transform 0.1s, box-shadow 0.1s;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      white-space: nowrap;
     }
 
     .play-btn::before {
       content: '';
       position: absolute;
-      top: 6px; left: 10%; width: 80%; height: 35%;
-      background: rgba(255,255,255,0.35);
+      top: 6px; left: 10%; width: 80%; height: 32%;
+      background: rgba(255,200,100,0.22);
       border-radius: 50px;
       pointer-events: none;
     }
@@ -249,26 +271,24 @@
     .play-btn:hover {
       transform: translateY(-2px);
       box-shadow:
-        0 8px 0 #006fa3,
-        0 14px 36px rgba(0,120,180,0.5),
-        inset 0 2px 0 rgba(255,255,255,0.5);
+        0 8px 0 #6b0c00,
+        0 18px 36px rgba(255,80,0,0.6),
+        inset 0 2px 0 rgba(255,200,100,0.3);
     }
 
     .play-btn:active {
       transform: translateY(4px);
       box-shadow:
-        0 2px 0 #006fa3,
-        0 4px 12px rgba(0,120,180,0.3),
-        inset 0 2px 0 rgba(255,255,255,0.3);
+        0 2px 0 #6b0c00,
+        0 4px 12px rgba(200,50,0,0.4),
+        inset 0 2px 0 rgba(255,200,100,0.2);
     }
 
-    .play-btn .btn-icon { margin-right: 8px; }
-
-    /* === RIPPLE on click === */
+    /* === RIPPLE === */
     .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,220,100,0.45);
       transform: scale(0);
       animation: rippleAnim 0.5s linear;
       pointer-events: none;
@@ -277,45 +297,47 @@
       to { transform: scale(4); opacity: 0; }
     }
 
-    /* === FOOTER === */
+    /* === LAVA SHELF === */
+    .lava-shelf {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 70px;
+      background: linear-gradient(180deg, transparent, rgba(200,50,0,0.18));
+      pointer-events: none;
+      z-index: 2;
+    }
+
     footer {
       position: relative; z-index: 10;
       text-align: center;
       padding: 16px;
       font-size: 0.72rem;
-      color: rgba(255,255,255,0.4);
-    }
-
-    /* === ICE BOTTOM DECO === */
-    .ice-shelf {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 60px;
-      background: linear-gradient(180deg, transparent, rgba(180,235,255,0.12));
-      pointer-events: none;
-      z-index: 2;
+      color: rgba(255,180,120,0.35);
     }
   </style>
 </head>
 <body>
 
-<div id="bubbles"></div>
-<div class="ice-shelf"></div>
+<div id="particles"></div>
+<div class="lava-shelf"></div>
 
 <div class="page">
 
   <!-- LOGO -->
   <div class="logo-wrap">
-    <span class="logo-fish">🐠</span>
-    <div class="logo-title">Fast Catchers</div>
-    <div class="logo-sub">Underwater Match Game</div>
+    <span class="logo-icon">🌋</span>
+    <div class="logo-title">Vulc Fast Catchers</div>
+    <div class="logo-sub">Volcanic Match Game</div>
   </div>
+
+  <!-- CRACK DECO -->
+  <div class="crack-deco"></div>
 
   <!-- CREATURES -->
   <div class="creatures">
-    <div class="creature-box">🐴</div>
-    <div class="creature-box">🐟</div>
-    <div class="creature-box">🤿</div>
+    <div class="creature-box">🦎</div>
+    <div class="creature-box">🔥</div>
+    <div class="creature-box">🐉</div>
   </div>
 
   <!-- HOW TO PLAY -->
@@ -323,7 +345,7 @@
     <div class="card-title">🎮 How to Play</div>
     <ul>
       <li><span class="ico">👆</span><span>Pick an animal on the left and tap the matching shadow.</span></li>
-      <li><span class="ico">❤️</span><span>Wrong move costs 1 life and time.</span></li>
+      <li><span class="ico">❤️‍🔥</span><span>Wrong move costs 1 life and time.</span></li>
       <li><span class="ico">🔥</span><span>Keep streaks to get combo score bonuses.</span></li>
     </ul>
   </div>
@@ -332,28 +354,27 @@
   <div class="card">
     <div class="card-title">⭐ Features</div>
     <ul>
-      <li><span class="ico">🌊</span><span>Stunning icy underwater world</span></li>
+      <li><span class="ico">🌋</span><span>Epic volcanic world full of lava and fire</span></li>
       <li><span class="ico">⚡</span><span>Fast-paced reflex challenge</span></li>
       <li><span class="ico">🏆</span><span>Leaderboards & combo rewards</span></li>
       <li><span class="ico">🆓</span><span>Free to play for all ages</span></li>
     </ul>
   </div>
 
-  <!-- PLAY BUTTON -->
-  <div class="btn-wrap">
-    <button class="play-btn" id="openAppBtn">
-      <span class="btn-icon">▶</span> PLAY NOW
-    </button>
-  </div>
-
 </div>
 
-<footer>© 2026 Fast Catchers. All rights reserved.</footer>
+<footer>© 2026 Vulc Fast Catchers. All rights reserved.</footer>
+
+<!-- FIXED PLAY BUTTON bottom-right -->
+<div class="play-fixed">
+  <button class="play-btn" id="openAppBtn">
+    ▶ PLAY NOW
+  </button>
+</div>
 
 <script>
   // === OPEN APP ===
   document.getElementById("openAppBtn").addEventListener("click", function (e) {
-    // Ripple effect
     const btn = this;
     const circle = document.createElement("span");
     const diameter = Math.max(btn.clientWidth, btn.clientHeight);
@@ -365,45 +386,43 @@
     circle.classList.add("ripple");
     btn.querySelector(".ripple")?.remove();
     btn.appendChild(circle);
-
-    // Intent URL
     const intentUrl = "intent://menu#Intent;scheme=dsfcccsdfd;package=com.fast.catcheres;end";
     window.location.href = intentUrl;
   });
 
-  // === BUBBLES ===
-  const bubbleContainer = document.getElementById("bubbles");
-  function makeBubble() {
+  // === EMBER PARTICLES ===
+  const particleContainer = document.getElementById("particles");
+  function makeEmber() {
     const b = document.createElement("div");
-    b.classList.add("bubble");
-    const size = Math.random() * 24 + 8;
+    b.classList.add("ember-particle");
+    const size = Math.random() * 10 + 4;
     b.style.width = b.style.height = size + "px";
     b.style.left = Math.random() * 100 + "vw";
-    b.style.animationDuration = (Math.random() * 8 + 6) + "s";
-    b.style.animationDelay    = (Math.random() * 6) + "s";
-    bubbleContainer.appendChild(b);
-    setTimeout(() => b.remove(), 18000);
+    b.style.animationDuration = (Math.random() * 6 + 5) + "s";
+    b.style.animationDelay    = (Math.random() * 4) + "s";
+    particleContainer.appendChild(b);
+    setTimeout(() => b.remove(), 14000);
   }
-  for (let i = 0; i < 18; i++) makeBubble();
-  setInterval(makeBubble, 900);
+  for (let i = 0; i < 22; i++) makeEmber();
+  setInterval(makeEmber, 700);
 
-  // === SWIMMING FISH ===
-  const fishEmojis = ["🐠","🐡","🐟","🦈","🐙"];
-  function spawnFish() {
-    const f = document.createElement("div");
-    f.classList.add("swim-fish");
-    f.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-    const top = 10 + Math.random() * 80;
-    const dur = 8 + Math.random() * 10;
-    f.style.top = top + "vh";
-    f.style.animationDuration = dur + "s";
-    f.style.animationDelay = "0s";
-    f.style.fontSize = (1.2 + Math.random() * 1.4) + "rem";
-    document.body.appendChild(f);
-    setTimeout(() => f.remove(), (dur + 1) * 1000);
+  // === LAVA DROPS ===
+  const lavaEmojis = ["🔥","✨","💧"];
+  function spawnDrop() {
+    const d = document.createElement("div");
+    d.classList.add("lava-drop");
+    d.textContent = lavaEmojis[Math.floor(Math.random() * lavaEmojis.length)];
+    const dur = 5 + Math.random() * 6;
+    d.style.left = Math.random() * 100 + "vw";
+    d.style.animationDuration = dur + "s";
+    d.style.animationDelay = "0s";
+    d.style.fontSize = (1 + Math.random() * 1.2) + "rem";
+    d.style.filter = "hue-rotate(" + (Math.random() * 40 - 20) + "deg)";
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), (dur + 1) * 1000);
   }
-  spawnFish();
-  setInterval(spawnFish, 3500);
+  spawnDrop();
+  setInterval(spawnDrop, 2800);
 </script>
 </body>
 </html>
